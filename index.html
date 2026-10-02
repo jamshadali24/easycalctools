@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>EasyCalcTools - Free Online Calculators</title>
+  <meta name="description" content="Free online calculators including age, percentage, BMI, discount and unit converter.">
+  <meta name="keywords" content="calculator, age calculator, percentage calculator, BMI calculator, discount calculator, unit converter">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    header h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 17px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      color: #2563eb;
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 7px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .result {
+      margin-top: 12px;
+      padding: 12px;
+      background: #eef4ff;
+      border-radius: 8px;
+      font-weight: bold;
+      min-height: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      margin-top: 40px;
+      background: #111827;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>EasyCalcTools</h1>
+  <p>Free, Simple & Useful Online Calculators</p>
+</header>
+
+<div class="container">
+
+  <div class="tools">
+
+    <!-- AGE CALCULATOR -->
+    <div class="card">
+      <h2>Age Calculator</h2>
+
+      <input type="date" id="birthDate">
+
+      <button onclick="calculateAge()">Calculate Age</button>
+
+      <div class="result" id="ageResult"></div>
+    </div>
+
+
+    <!-- PERCENTAGE CALCULATOR -->
+    <div class="card">
+      <h2>Percentage Calculator</h2>
+
+      <input type="number" id="percentValue" placeholder="Enter value">
+
+      <input type="number" id="percentTotal" placeholder="Enter total">
+
+      <button onclick="calculatePercentage()">Calculate Percentage</button>
+
+      <div class="result" id="percentageResult"></div>
+    </div>
+
+
+    <!-- BMI CALCULATOR -->
+    <div class="card">
+      <h2>BMI Calculator</h2>
+
+      <input type="number" id="weight" placeholder="Weight (kg)">
+
+      <input type="number" id="height" placeholder="Height (cm)">
+
+      <button onclick="calculateBMI()">Calculate BMI</button>
+
+      <div class="result" id="bmiResult"></div>
+    </div>
+
+
+    <!-- DISCOUNT CALCULATOR -->
+    <div class="card">
+      <h2>Discount Calculator</h2>
+
+      <input type="number" id="price" placeholder="Original price">
+
+      <input type="number" id="discount" placeholder="Discount %">
+
+      <button onclick="calculateDiscount()">Calculate Discount</button>
+
+      <div class="result" id="discountResult"></div>
+    </div>
+
+
+    <!-- UNIT CONVERTER -->
+    <div class="card">
+      <h2>Unit Converter</h2>
+
+      <input type="number" id="unitValue" placeholder="Enter value">
+
+      <select id="unitType">
+        <option value="km-miles">Kilometers → Miles</option>
+        <option value="miles-km">Miles → Kilometers</option>
+        <option value="kg-lb">Kilograms → Pounds</option>
+        <option value="lb-kg">Pounds → Kilograms</option>
+        <option value="cm-inch">Centimeters → Inches</option>
+        <option value="inch-cm">Inches → Centimeters</option>
+      </select>
+
+      <button onclick="convertUnit()">Convert</button>
+
+      <div class="result" id="unitResult"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 EasyCalcTools. All Rights Reserved.</p>
+</footer>
+
+
+<script>
+
+function calculateAge() {
+
+  const birth = document.getElementById("birthDate").value;
+
+  if (!birth) {
+    document.getElementById("ageResult").innerText =
+      "Please select your date of birth.";
+    return;
+  }
+
+  const birthDate = new Date(birth);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const monthDifference =
+    today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 &&
+     today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  document.getElementById("ageResult").innerText =
+    "Your age is " + age + " years.";
+}
+
+
+function calculatePercentage() {
+
+  const value =
+    parseFloat(document.getElementById("percentValue").value);
+
+  const total =
+    parseFloat(document.getElementById("percentTotal").value);
+
+  if (!isFinite(value) || !isFinite(total) || total === 0) {
+    document.getElementById("percentageResult").innerText =
+      "Please enter valid numbers.";
+    return;
+  }
+
+  const result = (value / total) * 100;
+
+  document.getElementById("percentageResult").innerText =
+    result.toFixed(2) + "%";
+}
+
+
+function calculateBMI() {
+
+  const weight =
+    parseFloat(document.getElementById("weight").value);
+
+  const height =
+    parseFloat(document.getElementById("height").value);
+
+  if (!isFinite(weight) || !isFinite(height) || height <= 0) {
+    document.getElementById("bmiResult").innerText =
+      "Please enter valid values.";
+    return;
+  }
+
+  const heightMeters = height / 100;
+
+  const bmi =
+    weight / (heightMeters * heightMeters);
+
+  document.getElementById("bmiResult").innerText =
+    "Your BMI is " + bmi.toFixed(1);
+}
+
+
+function calculateDiscount() {
+
+  const price =
+    parseFloat(document.getElementById("price").value);
+
+  const discount =
+    parseFloat(document.getElementById("discount").value);
+
+  if (!isFinite(price) || !isFinite(discount)) {
+    document.getElementById("discountResult").innerText =
+      "Please enter valid numbers.";
+    return;
+  }
+
+  const saved = price * discount / 100;
+ 
